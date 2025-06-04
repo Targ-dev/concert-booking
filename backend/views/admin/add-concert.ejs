@@ -1,0 +1,43 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100" style="margin-left: 180px; padding-top: 66px;">
+    <div class="shadow-lg p-4 bg-white rounded" style="width: 50%;">
+        <h2 class="mb-4 text-center">Add Concert</h2>
+        <form action="/admin/add-concert" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="concertName" class="form-label">Concert Name</label>
+                <input type="text" name="concertName" class="form-control" id="concertName" placeholder="Enter concert name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="concertDateTime" class="form-label">Date and Time</label>
+                <input type="datetime-local" name="concertDateTime" class="form-control" id="concertDateTime" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="venue" class="form-label">Venue</label>
+                <input type="text" name="venue" class="form-control" id="venue" placeholder="Enter venue" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="ticketPrice" class="form-label">Ticket Price</label>
+                <input type="number" name="ticketPrice" class="form-control" id="ticketPrice" placeholder="Enter ticket price" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="availableTickets" class="form-label">Available Tickets</label>
+                <input type="number" name="availableTickets" class="form-control" id="availableTickets" placeholder="Enter number of available tickets" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="concertDescription" class="form-control" id="concertDescription" rows="4" placeholder="Enter concert description" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="concertImage" class="form-label">Concert Image</label>
+                <input type="file" name="concertImage" class="form-control" id="concertImage" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+    </div>
+</div>

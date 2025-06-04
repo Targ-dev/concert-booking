@@ -1,0 +1,129 @@
+body {
+    padding-top: 60px;
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.9rem;
+}
+.booking-container {
+    max-width: 1000px;
+    margin: 1.5rem auto;
+    padding: 1.2rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+.concert-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 0.375rem;
+}
+.summary-box {
+    background-color: #f3f4f6;
+    border-radius: 0.375rem;
+    padding: 0.8rem;
+    margin-top: 0.8rem;
+}
+.divider {
+    height: 1px;
+    background-color: #dee2e6;
+    margin: 0.5rem 0;
+}
+/* Compact quantity selector */
+.quantity-container {
+    display: inline-flex;
+    align-items: center;
+}
+.btn-quantity {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    width: 25px;
+    height: 25px;
+    font-weight: bold;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+.quantity-input {
+    width: 45px;
+    text-align: center;
+    border-left: 0;
+    border-right: 0;
+    height: 25px;
+    padding: 0.2rem;
+    font-size: 0.8rem;
+}
+/* Smaller form elements */
+.form-select, .form-control {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.5rem;
+}
+.input-group-text {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.85rem;
+}
+.form-label {
+    margin-bottom: 0.2rem;
+    font-size: 0.85rem;
+}
+.btn-purchase {
+    background-color: #e21b24;
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem;
+    transition: background-color 0.3s;
+    font-size: 0.9rem;
+}
+.btn-purchase:hover {
+    background-color: #0b5ed7;
+}
+.card {
+    border-radius: 0.4rem;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+}
+.card-body {
+    padding: 0.8rem;
+}
+.back-link {
+    color: #0d6efd;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+.back-link:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+/* Reduced spacing */
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+.mb-3 {
+    margin-bottom: 0.7rem !important;
+}
+.mb-2 {
+    margin-bottom: 0.4rem !important;
+}
+h1 {
+    font-size: 1.4rem !important;
+}
+h2 {
+    font-size: 1.1rem !important;
+}
+h3 {
+    font-size: 0.9rem !important;
+}
+.g-4 {
+    --bs-gutter-y: 0.8rem;
+    --bs-gutter-x: 0.8rem;
+}
+.g-3 {
+    --bs-gutter-y: 0.6rem;
+    --bs-gutter-x: 0.6rem;
+}
+.ticket-price-display {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}

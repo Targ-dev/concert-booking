@@ -1,0 +1,385 @@
+    <style>
+        :root {
+            --sidebar-width: 180px;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            padding-top: 66px; 
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 20px;
+            border: none;
+        }
+        
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+        
+        .stats-card {
+            transition: transform 0.3s;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stats-card i {
+            font-size: 30px;
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        /* Color schemes for stats cards */
+        .bg-primary-subtle {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        .bg-success-subtle {
+            background-color: rgba(25, 135, 84, 0.1);
+        }
+        
+        .bg-warning-subtle {
+            background-color: rgba(255, 193, 7, 0.1);
+        }
+        
+        .bg-info-subtle {
+            background-color: rgba(13, 202, 240, 0.1);
+        }
+
+        .graphh {
+            object-fit: fill;
+            height: 300px;
+        }
+    </style>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <!-- Page title -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">Dashboard Overview</h4>
+                <div>
+                    <button class="btn btn-sm btn-outline-secondary me-2">
+                        <i class="bi bi-download me-1"></i> Export
+                    </button>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="bi bi-plus me-1"></i> Add New
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats cards -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="bg-primary-subtle p-3 rounded-3">
+                                        <i class="bi bi-people text-primary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">New Users</h6>
+                                    <h4 class="mb-0">2,845</h4>
+                                    <small class="text-success">
+                                        <i class="bi bi-arrow-up"></i> 12.5%
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="bg-success-subtle p-3 rounded-3">
+                                        <i class="bi bi-currency-dollar text-success"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Revenue</h6>
+                                    <h4 class="mb-0">$18,620</h4>
+                                    <small class="text-success">
+                                        <i class="bi bi-arrow-up"></i> 8.2%
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="bg-warning-subtle p-3 rounded-3">
+                                        <i class="bi bi-cart3 text-warning"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Orders</h6>
+                                    <h4 class="mb-0">1,753</h4>
+                                    <small class="text-success">
+                                        <i class="bi bi-arrow-up"></i> 5.7%
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="bg-info-subtle p-3 rounded-3">
+                                        <i class="bi bi-star text-info"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Ratings</h6>
+                                    <h4 class="mb-0">4.8</h4>
+                                    <small class="text-success">
+                                        <i class="bi bi-arrow-up"></i> 2.1%
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Recent Orders</h5>
+                            <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#ORD-7845</td>
+                                            <td>Alice Johnson</td>
+                                            <td>Apr 08, 2025</td>
+                                            <td>$125.00</td>
+                                            <td><span class="badge bg-success">Completed</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Actions
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#">View</a></li>
+                                                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#ORD-7844</td>
+                                            <td>Robert Wilson</td>
+                                            <td>Apr 08, 2025</td>
+                                            <td>$245.99</td>
+                                            <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Actions
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#">View</a></li>
+                                                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#ORD-7843</td>
+                                            <td>Emily Davis</td>
+                                            <td>Apr 07, 2025</td>
+                                            <td>$89.50</td>
+                                            <td><span class="badge bg-success">Completed</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Actions
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#">View</a></li>
+                                                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#ORD-7842</td>
+                                            <td>Michael Brown</td>
+                                            <td>Apr 07, 2025</td>
+                                            <td>$178.25</td>
+                                            <td><span class="badge bg-danger">Canceled</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Actions
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#">View</a></li>
+                                                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#ORD-7841</td>
+                                            <td>Sarah Miller</td>
+                                            <td>Apr 06, 2025</td>
+                                            <td>$312.00</td>
+                                            <td><span class="badge bg-info">Shipped</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Actions
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#">View</a></li>
+                                                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Chart -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Revenue Overview</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    This Month
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="#">This Week</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <img src="/images/1645185782590.png" alt="Chart Placeholder" class="img-fluid graphh" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Recent Activity</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item d-flex align-items-center px-3 py-3">
+                                    <div class="me-3">
+                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-person text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0">New user <strong>John Doe</strong> registered</p>
+                                        <small class="text-muted">5 minutes ago</small>
+                                    </div>
+                                </div>
+                                <div class="list-group-item d-flex align-items-center px-3 py-3">
+                                    <div class="me-3">
+                                        <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-cart text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0">New order <strong>#1234</strong> placed</p>
+                                        <small class="text-muted">15 minutes ago</small>
+                                    </div>
+                                </div>
+                                <div class="list-group-item d-flex align-items-center px-3 py-3">
+                                    <div class="me-3">
+                                        <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-star text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0">New review from <strong>Jane Smith</strong></p>
+                                        <small class="text-muted">45 minutes ago</small>
+                                    </div>
+                                </div>
+                                <div class="list-group-item d-flex align-items-center px-3 py-3">
+                                    <div class="me-3">
+                                        <div class="bg-info rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-bell text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0">New notification <strong>System Update</strong></p>
+                                        <small class="text-muted">1 hour ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center py-2">
+                            <a href="#" class="text-decoration-none">View All Activity</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

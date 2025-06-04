@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/stylesheets/concert-detail.css">
+
+<body>
+    <div class="hero-section" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('data:image/jpeg;base64,<%= concert.backgroundImage || concert.concertImage %>');">
+        
+        <div class="hero-content">
+            <div class="movie-poster">
+                <img src="data:image/jpeg;base64,<%= concert.concertImage %>" alt="<%= concert.concertName %>">
+            </div>
+            <div class="movie-info">
+                <h1 class="movie-title"><%= concert.concertName %></h1>
+                
+                <div class="movie-rating">
+                    <span class="star-icon">★</span>
+                    <div class="rating-value"><%= (Math.random() * 2 + 3).toFixed(1) %>/5</div>
+                    <div class="rating-votes">(<%= Math.floor(Math.random() * 61) + 40 %> Votes) ›</div>
+                    <button class="rate-button">Rate now</button>
+                </div>
+                
+                <div class="movie-metadata">
+                    <div class="movie-format">Live</div>
+                    <div class="movie-language"><%= concert.venue %></div>
+                </div>
+                
+                <div class="movie-specs">
+                    <%= new Date(concert.concertDateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %> • 
+                    <%= concert.genre %> • 
+                    <%= concert.ageLimit || 'All Ages' %> • 
+                    <%= new Date(concert.concertDateTime).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) %>
+                </div>
+
+                <div class="movie-metadata">
+                    <div class="movie-format">Available Tickets: <%= concert.availableTickets %></div>
+                    <div class="movie-language">₹<%= concert.ticketPrice %> Onwards</div>
+                </div>
+                
+                <button class="book-button">
+                    <a href="/concert-booking/<%= concert._id %>" style="text-decoration: none; color: white;">Book tickets </a>
+                </button>
+            </div>
+        </div>
+        <button class="share-button">⤴</button>
+    </div>
+
+    <div class="movie-description">
+        <h2 class="description-title">About the Concert</h2>
+        <p class="description-text">
+            <%= concert.concertDescription%>
+        </p>
+    </div>
+</body>
+

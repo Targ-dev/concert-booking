@@ -1,0 +1,241 @@
+    <style>
+        :root {
+            --primary-color: #dc3545;
+            --secondary-color: #6c757d;
+            --light-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --dark-color: #212529;
+        }
+    
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 80px;
+        }
+    
+        .booking-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+    
+        .booking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+    
+        .booking-image {
+            width: 160px;
+            height: auto;
+            object-fit: contain;
+        }
+    
+        .booking-details {
+            padding: 15px;
+        }
+    
+        .booking-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.25rem;
+            color: var(--dark-color);
+        }
+    
+        .booking-subtitle {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+    
+        .price-table {
+            width: 100%;
+            margin-top: 15px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+    
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+    
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            font-size: 1.1rem;
+        }
+    
+        .ticket-action {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    
+        .view-btn {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: white;
+            border-radius: 25px;
+            padding: 8px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+    
+        .view-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+    
+        .booking-footer {
+            background-color: var(--light-bg);
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+        }
+    
+        .page-title {
+            font-weight: 700;
+            margin-bottom: 30px;
+            font-size: 1.75rem;
+            color: var(--dark-color);
+        }
+    
+        .currency {
+            font-family: monospace;
+            white-space: nowrap;
+        }
+    
+        .container-narrow {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    
+        @media (max-width: 767.98px) {
+            .booking-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+    
+            .booking-footer div {
+                width: 100%;
+                text-align: left;
+            }
+    
+            .ticket-action {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 15px;
+            }
+    
+            .view-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    
+        @media (max-width: 575.98px) {
+            .booking-image {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
+        }
+    
+        @media print {
+            .view-btn {
+                display: none !important;
+            }
+    
+            .booking-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+    
+    <div class="container-narrow">
+        <h1 class="page-title">My Bookings</h1>
+
+        <% if (bookings.length === 0) { %>
+            <div class="alert alert-info" role="alert">
+                No bookings found. Please check back later.
+            </div>
+        <% } %>
+        
+        <!-- Booking Card -->
+        <% bookings.forEach(booking => { %>
+        <div class="booking-card row">
+            <div class="col-12 col-sm-auto p-0">
+                <img src="data:image/jpeg;base64,<%= booking.concertId.concertImage %>" class="booking-image" alt="<%= booking.concertId.concertName %>">
+            </div>
+            <div class="col booking-details">
+                <div class="ticket-action">
+                    <a href="/booking-confirmation/<%= booking._id %>" class="view-btn">
+                        <i class="fas fa-ticket-alt"></i> View Ticket
+                    </a>
+                </div>
+                
+                <h2 class="booking-title"><%= booking.concertId.concertName %></h2>
+                
+                <p class="mb-1"><strong><%= new Date(booking.concertId.concertDateTime).toLocaleString('en-IN') %></strong></strong></p>
+                <p class="mb-3"><%= booking.concertId.venue %></p>
+                
+                <p class="mb-2">Quantity: <span class="badge bg-secondary"><%= booking.ticketsCount %></span></p>
+                                
+                <div class="price-table">
+                    <div class="price-row">
+                        <span>Ticket price</span>
+                        <span class="currency">₹ <%= booking.concertId.ticketPrice %></span>
+                    </div>
+                    <div class="price-row">
+                        <span>Convenience fees<br><small class="text-muted">Incl. of Tax</small></span>
+                        <span class="currency">₹ 50.00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Amount Paid</span>
+                        <span class="currency">₹ <%= booking.totalPrice %></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="booking-footer col-12">
+                <div>
+                    <strong>BOOKING DATE & TIME</strong><br>
+                    <%= new Date(booking.bookingTime).toLocaleString('en-IN') %>
+                </div>
+                <div>
+                    <strong>STATUS</strong><br>
+                    <%= booking.status.toUpperCase() %>
+                </div>
+                <div>
+                    <strong>BOOKING ID</strong><br>
+                    <%= booking._id.toString().slice(-6).toUpperCase() %>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+        <!-- End of Booking Card -->
+    </div>
+    

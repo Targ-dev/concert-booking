@@ -1,0 +1,74 @@
+<body class="bg-light">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-4">
+            <div class="card shadow-lg p-4">
+                <h3 class="text-center mb-4">Sign Up</h3>
+                <% if (error) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= error %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <% } %>
+
+                        <% if (message) { %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <%= message %>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                            <% } %>
+
+                                <form action="/signup" method="POST">
+                                    <!-- Name field -->
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Full Name</label>
+                                        <input type="text" name="name" class="form-control" id="name"
+                                            placeholder="Enter your name" required>
+                                    </div>
+
+                                    <!-- Email field -->
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email address</label>
+                                        <input type="email" name="email" class="form-control" id="email"
+                                            placeholder="Enter your email" required>
+                                    </div>
+
+                                    <!-- Password field -->
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" name="password" class="form-control" id="password"
+                                            placeholder="Enter a password" required>
+                                    </div>
+
+                                    <!-- Confirm Password field -->
+                                    <div class="mb-3">
+                                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                        <input type="password" name="confirmPassword" class="form-control"
+                                            id="confirmPassword" placeholder="Re-enter the password" required>
+                                    </div>
+
+                                    <!-- Role field -->
+                                    <div class="mb-3" style="display: none;">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select name="role" id="role" class="form-control">
+                                            <option value="" disabled selected>Select your role</option>
+                                            <option name="admin" value="admin">Admin</option>
+                                            <option name="user" value="user">User</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Submit button -->
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                                    </div>
+
+                                    <!-- Already have an account link -->
+                                    <div class="text-center mt-3">
+                                        <p>Already have an account? <a href="login"
+                                                class="text-decoration-none">Login</a></p>
+                                    </div>
+                                </form>
+            </div>
+        </div>
+    </div>
+</body>

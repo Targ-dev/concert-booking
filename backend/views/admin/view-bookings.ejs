@@ -1,0 +1,63 @@
+<style>
+    body {
+      padding-top: 30px;
+      padding-left: 170px;
+    }
+  
+    .table-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  </style>
+  
+  <div class="container my-5 table-container">
+    <h2 class="mb-4 text-center">All User Bookings</h2>
+  
+    <% if (bookings.length === 0) { %>
+      <div class="alert alert-warning text-center">No bookings available.</div>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Concert</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Tickets</th>
+              <th>Total Price</th>
+              <th>Status</th>
+              <th>Booking Time</th>
+              <th>Booking ID</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% bookings.forEach((booking, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= booking.concertId.concertName %></td>
+                <td><%= booking.userId.name %></td>
+                <td><%= booking.userId.email %></td>
+                <td><%= booking.ticketsCount %></td>
+                <td>₹ <%= booking.totalPrice %></td>
+                <td>
+                  <span class="badge bg-<%= booking.status === 'cancelled' ? 'danger' : (booking.status === 'pending' ? 'warning' : 'success') %>">
+                    <%= booking.status.toUpperCase() %>
+                  </span>
+                </td>
+                <td><%= new Date(booking.bookingTime).toLocaleString('en-IN') %></td>
+                <td><%= booking._id.toString().slice(-6).toUpperCase() %></td>
+                <td>
+                  <a href="/booking-confirmation/<%= booking._id %>" class="btn btn-sm btn-outline-primary">
+                    View
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+  

@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="/stylesheets/show-concerts.css">
+
+</head>
+
+<body>
+    <!-- Banner Section -->
+    <section class="banner-section">
+        <img src="/images/banner1.png" alt="Concert Experience" class="banner-image">
+        <div class="banner-overlay">
+            <h1 class="banner-title">Live the Experience</h1>
+            <p class="banner-subtitle">Discover and book tickets to the hottest concerts happening in your city</p>
+            <div class="search-bar-container">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search for concerts, artists, or venues...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <a href="#concerts" class="banner-btn">Explore Now</a>
+        </div>
+    </section>
+
+    <!-- Concert Listings -->
+    <div class="container my-5" id="concerts">
+        <div class="section-title">
+            <h2>Upcoming Concerts</h2>
+        </div>
+
+        <div class="concerts-container">
+            <% data.forEach((concert, index)=> { %>
+                <% const isHidden = index >= 10; %>
+                <a href="/concert/<%= concert._id %>" class="concert-card <%= isHidden ? 'hidden-card' : '' %>">
+                    <div class="poster-container">
+                        <img src="data:image/jpeg;base64,<%= concert.concertImage %>" class="poster-image" alt="<%= concert.concertName %>">
+                    </div>
+                    <div class="info-bar">
+                        <span class="star-icon">★</span>
+                        <span class="rating-text">
+                            <%= (Math.random() * 2 + 3).toFixed(1) %>/5
+                        </span>
+                        <% if (concert.availableTickets < 100) { %>
+                        <span class="ticket-text" style="color: red;">
+                            <%= concert.availableTickets %>
+                        </span>
+                        <% } else if (concert.availableTickets < 200) { %>
+                        <span class="ticket-text" style="color: orange;">
+                            <%= concert.availableTickets %>
+                        </span>
+                        <% } else { %>
+                        <span class="ticket-text" style="color: green;">
+                            <%= concert.availableTickets %>
+                        </span>
+                        <% } %>&nbsp;Tickets Left
+                    </div>
+                    <h3 class="concert-title">
+                        <%= concert.concertName %>
+                    </h3>
+                    <p class="concert-info">
+                        <%= concert.venue %><br>
+                            <%= new Date(concert.concertDateTime).toLocaleDateString('en-US', { day: 'numeric' ,
+                                month: 'short' }) %> | ₹<%= concert.ticketPrice %> onwards
+                    </p>
+                </a>
+                <% }) %>
+        </div>
+        <div class="text-center mt-4">
+            <button id="seeMoreBtn" class="btn btn-outline-danger">See More</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("seeMoreBtn").addEventListener("click", function () {
+            const hiddenCards = document.querySelectorAll(".hidden-card");
+            hiddenCards.forEach(card => card.classList.remove("hidden-card"));
+            this.style.display = "none";
+        });
+    </script>
+    

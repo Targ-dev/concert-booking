@@ -1,0 +1,148 @@
+  <style>
+    :root {
+      --sidebar-width: 180px;
+      --navbar-height: 56px;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      margin: 0;
+    }
+
+    /* Navbar */
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, #343a40 0%, #2f4f4f 100%) !important;
+    }
+
+    .navbar-nav .nav-link {
+      transition: all 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+      background-color: rgba(255,255,255,0.15);
+    }
+
+    .has-search .form-control {
+      padding-left: 2.375rem;
+    }
+
+    .has-search .form-control-feedback {
+      color: #aaa;
+      z-index: 2;
+    }
+
+    .dropdown-menu {
+      min-width: 280px;
+      border-radius: 0.5rem;
+    }
+
+    .dropdown-item {
+      border-radius: 0.35rem;
+      margin: 0 0.5rem;
+      width: auto;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: var(--navbar-height);
+      left: 0;
+      width: var(--sidebar-width);
+      height: calc(100vh - var(--navbar-height));
+      background-color: #343a40;
+      color: #fff;
+      z-index: 100;
+      padding-top: 1rem;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      color: #ced4da;
+      text-decoration: none;
+      padding: 12px 20px;
+      transition: all 0.3s;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .sidebar-menu i {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+  </style>
+
+
+  <!-- Header/Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary border-bottom shadow fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-white" href="/admin">
+        <i class="bi bi-shield-shaded me-2"></i>Admin Dashboard
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerDemo02">
+        <div class="d-flex align-items-center gap-3 ms-auto">
+          <!-- Search -->
+          
+          <!-- Profile Dropdown -->
+          <div class="dropdown">
+            <button class="btn btn-light rounded-circle p-0 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="https://ui-avatars.com/api/?name=Admin&background=4e73df&color=fff&size=36" class="rounded-circle" width="36" height="36" alt="Admin">
+              <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                <span class="visually-hidden">Online</span>
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+              <li>
+                <div class="d-flex align-items-center px-3 py-2 mb-2">
+                  <img src="https://ui-avatars.com/api/?name=Admin&background=4e73df&color=fff&size=64" class="rounded-circle me-2" width="40" height="40" alt="Admin">
+                  <div>
+                    <h6 class="mb-0 fw-bold">Admin User</h6>
+                    <small class="text-muted">Super Administrator</small>
+                  </div>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li><a class="dropdown-item py-2" href="#"><i class="bi bi-person-fill me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item py-2" href="#"><i class="bi bi-shield-lock me-2"></i>Security</a></li>
+              <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear-fill me-2"></i>Settings</a></li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li><a class="dropdown-item py-2 text-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul class="sidebar-menu">
+      <li><a href="/admin" class="active"><i class="bi bi-house-door"></i><span>Dashboard</span></a></li>
+      <li><a href="/admin/view-users"><i class="bi bi-people"></i><span>Users</span></a></li>
+      <li><a href="/admin/view-concerts"><i class="bi bi-grid"></i><span>Concerts</span></a></li>
+      <li><a href="/admin/all-bookings"><i class="bi bi-cart3"></i><span>Orders</span></a></li>
+      <li><a href="#"><i class="bi bi-bar-chart"></i><span>Analytics</span></a></li>
+      <li><a href="#"><i class="bi bi-bell"></i><span>Notifications</span></a></li>
+      <li><a href="#"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+    </ul>
+  </div>
+

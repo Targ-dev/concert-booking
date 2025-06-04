@@ -1,0 +1,505 @@
+<style>
+    body {
+        background-color: #f3f4f6;
+        font-family: 'Playfair Display', serif;
+        min-height: 100vh;
+        margin: 0;
+        padding-top: 80px;
+        height: 100%;
+    }
+
+    .ticket-container {
+        width: 800px;
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        /* Changed from 100% to auto */
+        padding: 20px 0;
+        /* Added padding */
+    }
+
+    .ticket {
+        background-color: #ffffff;
+        border: 2px solid #d1b79d;
+        border-radius: 12px;
+        overflow: visible;
+        /* Changed from hidden to visible for PDF */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        /* Added width 100% */
+        max-width: 760px;
+        /* Added max-width */
+        page-break-inside: avoid;
+        /* Prevents breaking across pages in PDF */
+    }
+
+    .ticket-header {
+        background-color: #2e4057;
+        color: #f9f9f9;
+        padding: 14px 20px;
+        text-align: center;
+        position: relative;
+    }
+
+    .ticket-header h1 {
+        font-family: 'Abril Fatface', cursive;
+        margin: 0;
+        font-size: 32px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .ticket-ornament {
+        height: 5px;
+        background: repeating-linear-gradient(45deg,
+                #d1b79d,
+                #d1b79d 10px,
+                #f9f9f9 10px,
+                #f9f9f9 20px);
+    }
+
+    .ticket-content {
+        display: flex;
+        padding: 0;
+    }
+
+    .ticket-left {
+        flex: 2;
+        padding: 20px;
+        border-right: 2px dashed #d1b79d;
+        position: relative;
+    }
+
+    .ticket-right {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    .concert-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border: 3px solid #d1b79d;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    }
+
+    .concert-details h2 {
+        font-family: 'Special Elite', cursive;
+        margin: 0 0 5px;
+        color: #2e4057;
+        font-size: 22px;
+    }
+
+    .concert-info {
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .concert-info i {
+        margin-right: 8px;
+        color: #2e4057;
+        width: 16px;
+    }
+
+    .booking-details {
+        margin-top: 15px;
+        background-color: rgba(209, 183, 157, 0.15);
+        padding: 10px 15px;
+        border-radius: 6px;
+    }
+
+    .booking-details h3 {
+        margin: 0 0 5px;
+        font-family: 'Special Elite', cursive;
+        color: #2e4057;
+        font-size: 16px;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 3px;
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .detail-label {
+        font-weight: 600;
+    }
+
+    .detail-value {
+        font-weight: bold;
+        color: #2e4057;
+    }
+
+    .ticket-divider {
+        height: 12px;
+        background: repeating-linear-gradient(90deg,
+                #f9f9f9,
+                #f9f9f9 12px,
+                #d1b79d 12px,
+                #d1b79d 24px);
+        margin: 15px 0;
+    }
+
+    .qr-code {
+        width: 130px;
+        height: 130px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid #d1b79d;
+    }
+
+    .booking-id {
+        font-family: 'Special Elite', cursive;
+        letter-spacing: 1px;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .ticket-note {
+        color: #6c757d;
+        font-size: 12px;
+        font-style: italic;
+        margin-top: 10px;
+    }
+
+    .ticket-footer {
+        padding: 10px;
+        text-align: center;
+        font-family: 'Special Elite', cursive;
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .ticket-stub {
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .username {
+        font-family: 'Special Elite', cursive;
+        font-size: 16px;
+        margin: 10px 0 5px;
+        color: #2e4057;
+    }
+
+    .vintage-stamp {
+        position: absolute;
+        top: 30px;
+        right: 20px;
+        width: 85px;
+        height: 85px;
+        background-color: rgba(46, 64, 87, 0.8);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotate(15deg);
+        color: #f9f9f9;
+        font-family: 'Special Elite', cursive;
+        font-size: 14px;
+        border: 2px dashed #f9f9f9;
+        padding: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .vintage-stamp-text {
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    .circle-punch {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #f3f4f6;
+        border-radius: 50%;
+    }
+
+    .punch-top {
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .punch-bottom {
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .download-button {
+        background-color: #2e4057;
+        color: white;
+        border: none;
+        font-size: 1rem;
+        padding: 10px 25px;
+        border-radius: 999px;
+        text-decoration: none;
+        display: inline-block;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-button:hover {
+        background-color: #3b516c;
+    }
+
+    .center-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 10px;
+    }
+
+    .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'Special Elite', cursive;
+    color: #2e4057;
+    font-size: 16px;
+    width: 20%;
+}
+
+.hidden {
+    display: none;
+}
+
+@media print{
+    .no-print{
+        display: none !important;
+    }
+}
+
+</style>
+
+<body>
+    <div class="ticket-container">
+        <div class="ticket">
+            <div class="ticket-header">
+                <h1>Concert Admission</h1>
+            </div>
+            <div class="ticket-ornament"></div>
+            <div class="ticket-content">
+                <div class="ticket-left">
+                    <div class="vintage-stamp">
+                        <div class="vintage-stamp-text">CONFIRMED<br><%= booking.ticketsCount %></div>
+                    </div>
+                    <div class="confirmed-seal">
+                        <div class="seal-outer">
+                            <div class="seal-inner">
+                                <div class="seal-text">
+                                    <span class="seal-date"><%= new Date(booking.bookingTime).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'}) %><br><br></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="concert-details">
+                        <h2>
+                            <%= concert.concertName %>
+                        </h2>
+                        <div class="concert-info">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>
+                                <%= new Date(concert.concertDateTime).toLocaleString('en-US', { month: 'long' ,
+                                    day: 'numeric' , year: 'numeric' , hour: 'numeric' , minute: '2-digit' , hour12:
+                                    true }).replace(',', ' at' ) %>
+                            </span>
+                        </div>
+                        <div class="concert-info">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>
+                                <%= concert.venue %>
+                            </span>
+                        </div>
+                        <div class="concert-info">
+                            <i class="fas fa-door-open"></i>
+                            <span>Gates Open: <%= new Date(concert.concertDateTime).toLocaleString('en-US', {
+                                    hour: 'numeric' , minute: '2-digit' , hour12: true }) %>
+                            </span>
+                        </div>
+                        <div class="concert-info">
+                            <i class="fas fa-chair"></i>
+                            <span>General Admission</span>
+                        </div>
+                    </div>
+
+                    <div class="ticket-divider"></div>
+
+                    <div class="booking-details">
+                        <h3>Booking Details</h3>
+                        <div class="detail-row">
+                            <span class="detail-label">Ticket Type:</span>
+                            <span class="detail-value">General Admission</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Ticket Count:</span>
+                            <span class="detail-value">
+                                <%= booking.ticketsCount %>
+                            </span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Ticket(s) Price:</span>
+                            <span class="detail-value">&#8377;<%= concert.ticketPrice %>.00</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Service Charge:</span>
+                            <span class="detail-value">&#8377;50.00</span>
+                        </div>
+                        <div class="detail-row"
+                            style="margin-top: 5px; border-top: 1px dotted #d1b79d; padding-top: 5px;">
+                            <span class="detail-label">Total Amount:</span>
+                            <span class="detail-value">&#8377;<%= booking.totalPrice %>.00</span>
+                        </div>
+                    </div>
+
+                    <p class="ticket-note">Please present this ticket at the entrance. No refunds or exchanges.</p>
+                </div>
+
+                <div class="ticket-right">
+                    <div class="ticket-stub">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<%= booking._id %>"
+                            alt="QR Code">
+                        <div class="booking-id">BOOKING ID: <%= booking._id.toString().slice(-6).toUpperCase() %>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="username">
+                            <%= userName %>
+                        </p>
+                        <div class="concert-info" style="justify-content: center;">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>
+                                <%= new Date(concert.concertDateTime).toLocaleString('en-US', { month: 'long' ,
+                                    day: 'numeric' , year: 'numeric' }) %>
+                            </span>
+                        </div>
+                        <div class="concert-info" style="justify-content: center;">
+                            <i class="fas fa-clock"></i>
+                            <span>
+                                <%= new Date(concert.concertDateTime).toLocaleString('en-US', { hour: 'numeric' ,
+                                    minute: '2-digit' , hour12: true }) %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ticket-ornament"></div>
+            <div class="ticket-footer">
+                This ticket is non-transferable and requires valid ID for entry.
+            </div>
+
+            <div class="circle-punch punch-top"></div>
+            <div class="circle-punch punch-bottom"></div>
+        </div>
+    </div>
+    <div class="center-container no-print">
+        <a href="/booking/generate-pdf/<%= booking._id %>" value="pdf" class="download-button">
+            Download
+        </a> &nbsp;&nbsp;
+        <a href="/booking/send-email/<%= booking._id %>" value="pdf" class="download-button">
+            Send mail
+        </a>
+
+        <div id="actionModal" class="modal hidden">
+            <div class="modal-content">
+                <span id="modalMessage">Processing...</span>
+            </div>
+        </div>           
+    </div>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const downloadBtn = document.querySelector("a[href^='/booking/generate-pdf']");
+        const emailBtn = document.querySelector("a[href^='/booking/send-email']");
+        const modal = document.getElementById("actionModal");
+        const modalMessage = document.getElementById("modalMessage");
+
+        function showModal(message) {
+            modalMessage.textContent = message;
+            modal.classList.remove("hidden");
+        }
+
+        function hideModal(afterMs = 2000) {
+            setTimeout(() => modal.classList.add("hidden"), afterMs);
+        }
+
+        if (downloadBtn) {
+            downloadBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                showModal("Generating PDF...");
+                fetch(downloadBtn.href)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        hideModal(0);
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = "booking-confirmation.pdf";
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    })
+                    .catch(err => {
+                        showModal("Failed to generate PDF.");
+                        hideModal();
+                        console.error(err);
+                    });
+            });
+        }
+
+        if (emailBtn) {
+            emailBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                showModal("Sending email...");
+                fetch(emailBtn.href)
+                    .then(res => res.text())
+                    .then(() => {
+                        showModal("Email sent successfully!");
+                        hideModal();
+                    })
+                    .catch(err => {
+                        showModal("Failed to send email.");
+                        hideModal();
+                        console.error(err);
+                    });
+            });
+        }
+    });
+</script>
+
+</html>

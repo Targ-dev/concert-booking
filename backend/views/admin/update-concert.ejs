@@ -1,0 +1,67 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100" style="margin-left: 180px; padding-top: 66px;">
+    <div class="shadow-lg p-4 bg-white rounded d-flex" style="width: 60%;">
+        <!-- Form Section -->
+        <div class="w-50 pe-3">
+            <h2 class="mb-4 text-center">Update Concert</h2>
+            <form action="/admin/update-concert/<%= concert._id %>" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="concertName" class="form-label">Concert Name</label>
+                    <input type="text" name="concertName" class="form-control" id="concertName" 
+                           value="<%= concert.concertName %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="concertDateTime" class="form-label">Date and Time</label>
+                    <input type="datetime-local" name="concertDateTime" class="form-control" id="concertDateTime" 
+                           value="<%= concert.concertDateTime.toISOString().slice(0, 16) %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="venue" class="form-label">Venue</label>
+                    <input type="text" name="venue" class="form-control" id="venue" 
+                           value="<%= concert.venue %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="ticketPrice" class="form-label">Ticket Price</label>
+                    <input type="number" name="ticketPrice" class="form-control" id="ticketPrice" 
+                           value="<%= concert.ticketPrice %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="availableTickets" class="form-label">Available Tickets</label>
+                    <input type="number" name="availableTickets" class="form-control" id="availableTickets" 
+                           value="<%= concert.availableTickets %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="concertDescription" class="form-control" id="concertDescription" rows="4" required><%= concert.concertDescription %></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="concertImage" class="form-label">Upload New Image</label>
+                    <input type="file" name="concertImage" class="form-control" id="concertImage" accept="image/*" onchange="previewImage(event)">
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">Update Concert</button>
+            </form>
+        </div>
+
+        <!-- Image Section -->
+        <div class="w-50 d-flex justify-content-center align-items-center">
+            <div class="text-center">
+                <p class="text-muted">Current Concert Image</p>
+                <img src="data:image/jpeg;base64,<%= concert.concertImage %>" alt="Concert Image" id="currentImage" class="img-thumbnail rounded shadow-sm" 
+                     style="width: 100%; max-width: 300px;">
+            </div>
+        </div>
+
+        <script>
+            function previewImage(event) {
+                var output = document.getElementById('currentImage');
+                output.src = URL.createObjectURL(event.target.files[0]);
+            }
+        </script> 
+    </div>
+</div>

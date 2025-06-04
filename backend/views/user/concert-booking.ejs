@@ -1,0 +1,183 @@
+<link rel="stylesheet" href="/stylesheets/concert-booking.css">
+
+    <div class="booking-container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="fw-bold">Book Tickets</h1>
+            <a href="/" class="back-link">
+                <i class="fas fa-arrow-left me-1"></i> Back to Concerts
+            </a>
+        </div>
+
+        <div class="row g-3">
+            <!-- Concert Information -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img src="data:image/jpeg;base64,<%= concert.concertImage %>" alt="<%= concert.concertName %>" class="concert-image mb-2">
+                        <h2 class="fw-bold mb-1"><%= concert.concertName %></h2>
+                        <div class="d-flex align-items-center text-secondary mb-1">
+                            <i class="fas fa-calendar me-1" style="font-size: 0.8rem;"></i>
+                            <span style="font-size: 0.8rem;">
+                                <%= new Date(concert.concertDateTime).toLocaleString('en-US', {
+                                    month: 'long',
+                                    day: 'numeric',
+                                    year: 'numeric',
+                                    hour: 'numeric',
+                                    minute: '2-digit',
+                                    hour12: true
+                                  }).replace(',', ' at') %>
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center text-secondary">
+                            <i class="fas fa-ticket-alt me-1" style="font-size: 0.8rem;"></i>
+                            <span style="font-size: 0.8rem;"><%= concert.venue %></span>
+                        </div>
+                        
+                        <div class="summary-box mt-2">
+                            <h3 class="fw-semibold mb-1">Booking Summary</h3>
+                            <div class="d-flex justify-content-between mb-1" style="font-size: 0.8rem;">
+                                <span>General Admission x <span id="summary-quantity">1</span></span>
+                                <span id="tickets-subtotal">&#8377;<%= concert.ticketPrice %></span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1" style="font-size: 0.8rem;">
+                                <span>Service Fee</span>
+                                <span>&#8377;50</span>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="d-flex justify-content-between fw-bold" style="font-size: 0.85rem;">
+                                <span>Total</span>
+                                <span id="total-price">&#8377;<%= concert.ticketPrice + 50 %></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="booking-form" action="/concert-booking/<%= concert._id %>" method="post">
+                            <!-- Ticket Selection -->
+                            <div class="mb-3">
+                                <h2 class="fw-bold mb-2">Select Tickets</h2>
+                                <div class="ticket-price-display">
+                                    <strong>General Admission</strong> - &#8377;<%= concert.ticketPrice %> per ticket
+                                </div>
+                                <div class="mb-2">
+                                    <label for="ticket-quantity" class="form-label">Number of Tickets</label>
+                                    <div class="quantity-container">
+                                        <button type="button" class="btn btn-quantity" id="decrease-btn">-</button>
+                                        <input type="number" name="ticketsCount" class="form-control quantity-input" id="ticket-quantity" value="1" min="1" max="3" required>
+                                        <button type="button" class="btn btn-quantity" id="increase-btn">+</button>
+                                    </div>
+                                    <span class="ticket-price-display">
+                                    &nbsp;Max 3 tickets per person!
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="mb-3">
+                                <h2 class="fw-bold mb-2">Contact Information</h2>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <label for="full-name" class="form-label">Full Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-user" style="font-size: 0.8rem;"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="full-name" value="<%= userName %>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" value="<%= userEmail %>" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Details -->
+                            <div class="mb-3">
+                                <h2 class="fw-bold mb-2">Payment Details</h2>
+                                <div class="mb-2">
+                                    <label for="card-number" class="form-label">Card Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-credit-card" style="font-size: 0.8rem;"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="card-number" placeholder="1234 5678 9012 3456" required>
+                                    </div>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <label for="expiry-date" class="form-label">Expiry Date</label>
+                                        <input type="text" class="form-control" id="expiry-date" placeholder="MM/YY" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cvv" class="form-label">CVV</label>
+                                        <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-purchase w-100" id="purchase-btn">
+                                Complete Purchase - &#8377;<%= concert.ticketPrice + 50 %>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ticketQuantityInput = document.getElementById('ticket-quantity');
+            const decreaseBtn = document.getElementById('decrease-btn');
+            const increaseBtn = document.getElementById('increase-btn');
+            const summaryQuantity = document.getElementById('summary-quantity');
+            const ticketsSubtotal = document.getElementById('tickets-subtotal');
+            const totalPrice = document.getElementById('total-price');
+            const purchaseBtn = document.getElementById('purchase-btn');
+            const bookingForm = document.getElementById('booking-form');
+            
+            let ticketPrice = '<%= concert.ticketPrice %>';
+            const serviceFee = 50;
+            
+            // Update prices and summary
+            function updatePrices() {
+                const quantity = parseInt(ticketQuantityInput.value);
+                
+                const subtotal = ticketPrice * quantity;
+                const total = subtotal + serviceFee;
+                
+                summaryQuantity.textContent = quantity;
+                ticketsSubtotal.textContent = '₹' + subtotal;
+                totalPrice.textContent = '₹' + total;
+                purchaseBtn.textContent = 'Complete Purchase - ₹' + total;
+            }
+            
+            // Event listeners
+            ticketQuantityInput.addEventListener('change', function() {
+                // Ensure value is between 1 and 10
+                let value = parseInt(this.value) || 1;
+                value = Math.max(1, Math.min(3, value));
+                this.value = value;
+                updatePrices();
+            });
+            
+            decreaseBtn.addEventListener('click', function() {
+                let value = parseInt(ticketQuantityInput.value) - 1;
+                ticketQuantityInput.value = Math.max(1, value);
+                updatePrices();
+            });
+            
+            increaseBtn.addEventListener('click', function() {
+                let value = parseInt(ticketQuantityInput.value) + 1;
+                ticketQuantityInput.value = Math.min(3, value);
+                updatePrices();
+            });
+        });
+    </script>
