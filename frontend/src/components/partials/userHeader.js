@@ -5,9 +5,16 @@ import { jwtDecode } from 'jwt-decode';
 function Userheader() {
   const [scrolled, setScrolled] = useState(false);
   const [userName, setUserName] = useState('');
+  const [isHomePage, setIsHomePage] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    setIsHomePage(window.location.pathname === '/');
+    
+    const handleScroll = () => {
+      const scrollThreshold = window.location.pathname === '/' ? window.innerHeight : 50;
+      setScrolled(window.scrollY > scrollThreshold);
+    };
+    
     window.addEventListener('scroll', handleScroll);
 
     const token = localStorage.getItem('token');
@@ -23,43 +30,76 @@ function Userheader() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const getNavbarBackground = () => {
+    if (isHomePage) {
+      return scrolled ? 'rgba(255, 255, 255, 0.9)' : 'transparent';
+    } else {
+      return scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.85)';
+    }
+  };
+
+  const getTextStyle = () => ({
+    color: isHomePage && !scrolled ? '#ffffff' : '#1d3557',
+    textShadow: isHomePage && !scrolled ? '0 2px 4px rgba(0,0,0,0.7)' : '0 1px 2px rgba(255,255,255,0.8)',
+    transition: 'all 0.3s ease-in-out'
+  });
+
+  const getBrandIconStyle = () => ({
+    color: isHomePage && !scrolled ? '#ffffff' : '#e63946',
+    fontSize: '1.8rem',
+    transition: 'all 0.3s ease',
+    filter: isHomePage && !scrolled ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.7))' : 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
+  });
+
+  const getBrandTextStyle = () => ({
+    color: isHomePage && !scrolled ? '#ffffff' : '#1d3557',
+    fontWeight: 800,
+    fontSize: '1.6rem',
+    letterSpacing: '-0.5px',
+    textShadow: isHomePage && !scrolled ? '0 2px 4px rgba(0,0,0,0.8)' : 'none',
+    transition: 'all 0.3s ease-in-out'
+  });
+
   return (
     <header>
-      <nav className={`navbar navbar-expand-lg fixed-top ${scrolled ? 'shadow-sm bg-white' : 'bg-white bg-opacity-90'}`} 
+      <nav className={`navbar navbar-expand-lg fixed-top ${scrolled ? 'shadow-sm' : ''}`} 
            style={{ 
-             transition: 'all 0.3s ease-in-out',
+             transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
              padding: '0.5rem 1rem',
              height: '70px',
-             backdropFilter: 'blur(8px)',
-             WebkitBackdropFilter: 'blur(8px)'
+             backgroundColor: getNavbarBackground(),
+             backdropFilter: scrolled || !isHomePage ? 'blur(12px)' : 'none',
+             WebkitBackdropFilter: scrolled || !isHomePage ? 'blur(12px)' : 'none',
+             borderBottom: scrolled ? '1px solid rgba(230, 57, 70, 0.1)' : 'none'
            }}>
         <div className="container">
 
           <NavLink to="/" className="navbar-brand d-flex align-items-center">
-            <i className="bi bi-music-note-beamed me-2" style={{ 
-              color: '#e63946', 
-              fontSize: '1.8rem',
-              transition: 'transform 0.3s ease'
-            }}></i>
-            <span style={{ 
-              color: '#1d3557', 
-              fontWeight: 800, 
-              fontSize: '1.6rem',
-              letterSpacing: '-0.5px',
-              background: 'linear-gradient(90deg, #e63946, #1d3557)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>ConcertHub</span>
+            <i className="bi bi-music-note-beamed me-2" style={getBrandIconStyle()}></i>
+            <span style={getBrandTextStyle()}>ConcertHub</span>
           </NavLink>
           
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                   data-bs-target="#navbarContent" aria-controls="navbarContent" 
                   aria-expanded="false" aria-label="Toggle navigation"
-                  style={{ border: 'none' }}>
-            <i className="bi bi-list" style={{ fontSize: '1.8rem', color: '#1d3557' }}></i>
+                  style={{ 
+                    border: 'none',
+                    backgroundColor: isHomePage && !scrolled 
+                      ? 'rgba(255, 255, 255, 0.2)' 
+                      : 'rgba(29, 53, 87, 0.1)',
+                    borderRadius: '8px',
+                    padding: '0.5rem',
+                    transition: 'all 0.3s ease'
+                  }}>
+            <i className="bi bi-list" style={{ 
+              fontSize: '1.8rem', 
+              color: isHomePage && !scrolled ? '#ffffff' : '#1d3557',
+              filter: isHomePage && !scrolled ? 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' : 'none',
+              transition: 'all 0.3s ease'
+            }}></i>
           </button>
           
-          <div className="collapse navbar-collapse" id="navbarContent" style={{}}>
+          <div className={`collapse navbar-collapse ${isHomePage && !scrolled ? 'dark-collapse' : ''}`} id="navbarContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
               <li className="nav-item me-1">
                 <NavLink to="/" className={({isActive}) => 
@@ -68,7 +108,9 @@ function Userheader() {
                     fontWeight: 600,
                     padding: '0.5rem 1.2rem',
                     borderRadius: '50px',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.3s ease',
+                    color: isHomePage && !scrolled ? '#ffffff' : '#1d3557',
+                    textShadow: isHomePage && !scrolled ? '0 2px 4px rgba(0,0,0,0.8)' : '0 1px 2px rgba(255,255,255,0.8)'
                   }}>
                   <i className="bi bi-music-player me-2"></i>Concerts
                 </NavLink>
@@ -80,7 +122,9 @@ function Userheader() {
                     fontWeight: 600,
                     padding: '0.5rem 1.2rem',
                     borderRadius: '50px',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.3s ease',
+                    color: isHomePage && !scrolled ? '#ffffff' : '#1d3557',
+                    textShadow: isHomePage && !scrolled ? '0 2px 4px rgba(0,0,0,0.8)' : '0 1px 2px rgba(255,255,255,0.8)'
                   }}>
                   <i className="bi bi-ticket-perforated me-2"></i>Bookings
                 </NavLink>
@@ -97,30 +141,45 @@ function Userheader() {
                   aria-expanded="false"
                   style={{
                     border: "none",
-                    background: "transparent",
+                    background: isHomePage && !scrolled 
+                      ? "rgba(255, 255, 255, 0.15)" 
+                      : "rgba(255, 255, 255, 0.3)",
                     transition: "all 0.3s ease",
-                    padding: "0.2rem 0.8rem",
-                    borderRadius: "50px"
+                    padding: "0.4rem 1rem",
+                    borderRadius: "50px",
+                    backdropFilter: scrolled || !isHomePage ? "blur(8px)" : "none",
+                    WebkitBackdropFilter: scrolled || !isHomePage ? "blur(8px)" : "none"
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(230, 57, 70, 0.1)";
+                    e.currentTarget.style.background = isHomePage && !scrolled 
+                      ? "rgba(255, 255, 255, 0.25)" 
+                      : "rgba(230, 57, 70, 0.15)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.background = isHomePage && !scrolled 
+                      ? "rgba(255, 255, 255, 0.15)" 
+                      : "rgba(255, 255, 255, 0.3)";
                   }}
                 >
                   <i 
                     className="bi bi-person-circle fs-4 me-2" 
                     style={{
-                      color: "#e63946",
-                      transition: "transform 0.3s ease"
+                      color: isHomePage && !scrolled ? "#ffffff" : "#e63946",
+                      transition: "all 0.3s ease",
+                      filter: isHomePage && !scrolled 
+                        ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.7))' 
+                        : 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
                     }}
                   ></i>
                   <span 
                     style={{
-                      color: "#1d3557",
+                      color: isHomePage && !scrolled ? "#ffffff" : "#1d3557",
                       fontSize: "0.95rem",
-                      fontWeight: "600"
+                      fontWeight: "600",
+                      textShadow: isHomePage && !scrolled 
+                        ? '0 2px 4px rgba(0,0,0,0.8)' 
+                        : '0 1px 2px rgba(255,255,255,0.8)',
+                      transition: 'all 0.3s ease'
                     }}
                   >
                     {userName || 'Account'}
@@ -132,6 +191,9 @@ function Userheader() {
                       borderRadius: '12px',
                       padding: '0.5rem 0',
                       minWidth: '200px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)'
                     }}>
                   {userName ? (
                     <>
@@ -161,11 +223,6 @@ function Userheader() {
                           <i className="bi bi-box-arrow-in-right me-2"></i>Login
                         </NavLink>
                       </li>
-                      {/* <li>
-                        <NavLink className="dropdown-item d-flex align-items-center py-2 px-3" to="/authentication">
-                          <i className="bi bi-person-plus me-2"></i>Register
-                        </NavLink>
-                      </li> */}
                     </>
                   )}
                 </ul>
@@ -177,12 +234,14 @@ function Userheader() {
 
       <style jsx>{`
         .active-nav-item {
-          color: #e63946 !important;
-          background-color: rgba(230, 57, 70, 0.1) !important;
+          color: ${isHomePage && !scrolled ? '#ffffff' : '#e63946'} !important;
+          background-color: ${isHomePage && !scrolled ? 'rgba(255, 255, 255, 0.2)' : 'rgba(230, 57, 70, 0.15)'} !important;
+          box-shadow: 0 2px 8px ${isHomePage && !scrolled ? 'rgba(255, 255, 255, 0.3)' : 'rgba(230, 57, 70, 0.2)'};
         }
         .nav-link:hover {
-          color: #e63946 !important;
-          background-color: rgba(230, 57, 70, 0.05) !important;
+          color: ${isHomePage && !scrolled ? '#ffffff' : '#e63946'} !important;
+          background-color: ${isHomePage && !scrolled ? 'rgba(255, 255, 255, 0.15)' : 'rgba(230, 57, 70, 0.1)'} !important;
+          transform: translateY(-1px);
         }
         .dropdown-item:hover {
           background-color: rgba(230, 57, 70, 0.1) !important;
@@ -194,15 +253,21 @@ function Userheader() {
         @media (max-width: 991.98px) {
           .navbar-collapse {
             background-color: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 12px;
             margin-top: 10px;
             padding: 1rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
           }
           .dropdown-menu {
             background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+          }
+          .dark-collapse {
+            background-color: rgba(0, 0, 0, 0.47) !important;
           }
         }
       `}</style>
